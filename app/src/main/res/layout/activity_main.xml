@@ -102,11 +102,11 @@
                 android:paddingRight="10dp">
 
                 <TextView
-                    android:layout_width="60dp"
+                    android:layout_width="64dp"
                     android:layout_height="wrap_content"
                     android:text="通知地址"
                     android:textColor="@color/ui_text_main"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -130,16 +130,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:paddingVertical="14dp"
+                android:paddingVertical="16dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
                 <TextView
-                    android:layout_width="60dp"
+                    android:layout_width="64dp"
                     android:layout_height="wrap_content"
                     android:text="通讯密钥"
                     android:textColor="@color/ui_text_main"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -380,7 +380,7 @@
                         android:padding="6dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_copy"
-                        android:tint="#007AFF" />
+                        app:tint="#007AFF" />
 
                     <ImageButton
                         android:id="@+id/btn_clear_log"
@@ -391,7 +391,7 @@
                         android:padding="6dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_trash"
-                        android:tint="#FF3B30" />
+                        app:tint="#FF3B30" />
                 </LinearLayout>
             </RelativeLayout>
 
