@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light Mode Theme (iOS/Element Style) -->
+    <color name="ui_background">#F2F2F7</color>
+    <color name="ui_surface">#FFFFFF</color>
+    <color name="ui_text_main">#000000</color>
+    <color name="ui_text_secondary">#70757a</color>
+    <color name="ui_divider">#f0f2f5</color>
+    
+    <!-- Element Plus Tag (Success) -->
+    <color name="ep_success_bg">#def7ec</color>
+    <color name="ep_success_text">#046c4e</color>
+    <color name="ep_success_dot">#31c48d</color>
+    
+    <!-- Element Plus Tag (Danger) -->
+    <color name="ep_danger_bg">#fde8e8</color>
+    <color name="ep_danger_text">#9b1c1c</color>
+    <color name="ep_danger_dot">#f05252</color>
+    
+    <!-- Element Plus Tag (Warning) -->
+    <color name="ep_warning_bg">#fdf6ec</color>
+    <color name="ep_warning_text">#723b13</color>
+    <color name="ep_warning_dot">#e3a008</color>
+
+    <!-- Buttons -->
+    <color name="btn_blue">#3b82f6</color>
+    <color name="btn_orange">#f97316</color>
+    <color name="btn_rose">#f43f5e</color>
+    <color name="btn_indigo">#6366f1</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- Log System -->
+    <color name="log_header_bg">#F9F9FB</color>
+    <color name="log_content_bg">#FFFFFF</color>
+
+    <!-- System Mappings -->
+    <color name="colorPrimary">#F2F2F7</color>
+    <color name="colorPrimaryDark">#E5E5EA</color>
+    <color name="colorAccent">#3b82f6</color>
+
+    <!-- Original Scanner Colors (Keep) -->
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="result_view">#B0000000</color>
+    <color name="viewfinder_frame">#90FFFFFF</color>
+    <color name="result_point_color">#C0FFFF00</color>
+    <color name="laser_color">#0F0</color>
+    <color name="corner_color">#00FF00</color>
+</resources>

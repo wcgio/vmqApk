@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark Mode Theme (iOS/Pure Dark Style) -->
+    <color name="ui_background">#000000</color>
+    <color name="ui_surface">#1C1C1E</color>
+    <color name="ui_text_main">#FFFFFF</color>
+    <color name="ui_text_secondary">#98989D</color>
+    <color name="ui_divider">#38383A</color>
+    
+    <!-- Element Plus Tag (Success - Optimized for Dark) -->
+    <color name="ep_success_bg">#1c2d1e</color>
+    <color name="ep_success_text">#67c23a</color>
+    <color name="ep_success_dot">#67c23a</color>
+    
+    <!-- Element Plus Tag (Danger - Optimized for Dark) -->
+    <color name="ep_danger_bg">#2d1c1c</color>
+    <color name="ep_danger_text">#f56c6c</color>
+    <color name="ep_danger_dot">#f56c6c</color>
+    
+    <!-- Element Plus Tag (Warning - Optimized for Dark) -->
+    <color name="ep_warning_bg">#2d261c</color>
+    <color name="ep_warning_text">#e6a23c</color>
+    <color name="ep_warning_dot">#e6a23c</color>
+
+    <!-- Buttons (Keep Vibrant) -->
+    <color name="btn_blue">#0A84FF</color>
+    <color name="btn_orange">#FF9F0A</color>
+    <color name="btn_rose">#FF375F</color>
+    <color name="btn_indigo">#5E5CE6</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- Log System -->
+    <color name="log_header_bg">#2C2C2E</color>
+    <color name="log_content_bg">#1C1C1E</color>
+</resources>

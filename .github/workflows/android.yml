@@ -1,0 +1,68 @@
+name: Android CI/CD
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Build with Gradle
+      run: ./gradlew assembleDebug
+
+    - name: Extract Version and Rename APK
+      run: |
+        VERSION=$(grep "versionName" app/build.gradle | awk -F '\"' '{print $2}')
+        echo "APP_VERSION=$VERSION" >> $GITHUB_ENV
+        mv app/build/outputs/apk/debug/app-debug.apk vmq-monitor-v$VERSION.apk
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: vmq-monitor-apk
+        path: vmq-monitor-v${{ env.APP_VERSION }}.apk
+
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v2
+      with:
+        files: vmq-monitor-v${{ env.APP_VERSION }}.apk
+        name: V免签 Android 监控端 v${{ env.APP_VERSION }}
+        body: |
+          🚀 V免签 Android 监控端 v${{ env.APP_VERSION }} 旗舰版
+          
+          ### 更新内容 (v4.0)
+          - **UI 重构**：全面适配 iOS/Telegram 风格，支持沉浸式状态栏与 Glassmorphism 弹窗。
+          - **Android 16 适配**：穿透系统级通知拦截，修复静默通知捕获。
+          - **版本管理**：实现版本号全自动化同步展示。
+          - **高度自适应**：日志显示区域自动占满屏幕剩余空间。
+          
+          ### 安装说明
+          1. 解除受限设置：设置 -> 应用程序 -> V免签 -> 三个点 -> 允许受限设置。
+          2. 授权通知使用权：在设置中关闭再开启一次。
+          3. 电池优化：设为“不受限制”。
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

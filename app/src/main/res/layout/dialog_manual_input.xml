@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog_glass"
+    android:elevation="8dp">
+
+    <!-- Content Section: Left Aligned -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="28dp"
+        android:paddingBottom="24dp"
+        android:paddingHorizontal="24dp"
+        android:gravity="start">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="配置数据"
+            android:textColor="@color/ui_text_main"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请输入域名或 IP:端口/密钥"
+            android:textColor="@color/ui_text_secondary"
+            android:textSize="13sp"
+            android:layout_marginBottom="24dp"/>
+
+        <EditText
+            android:id="@+id/edit_config_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="54dp"
+            android:background="@drawable/bg_input_rounded"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:hint="例如: vmq.yourdomain.com/密钥"
+            android:textSize="15sp"
+            android:textColor="@color/ui_text_main"
+            android:gravity="start|center_vertical"
+            android:inputType="textMultiLine"
+            android:fontFamily="monospace"/>
+    </LinearLayout>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#1A000000" />
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_dialog_cancel"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="取消"
+            android:textColor="#70757a"
+            android:textSize="16sp"
+            android:textAllCaps="false"/>
+
+        <!-- Vertical Divider -->
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="#1A000000" />
+
+        <Button
+            android:id="@+id/btn_dialog_confirm"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="连接"
+            android:textColor="#2589ff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+
+</LinearLayout>
