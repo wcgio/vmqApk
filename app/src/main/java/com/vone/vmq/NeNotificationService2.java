@@ -362,13 +362,6 @@ public class NeNotificationService2 extends NotificationListenerService {
         String pkg = sbn.getPackageName();
         Notification notification = sbn.getNotification();
         
-        // 如果是微信，开启“疯狗模式”解析：不管三七二十一，先深度扫描并显示
-        if (WECHAT_PACKAGE.equals(pkg)) {
-            Bundle ex = notification.extras;
-            String deep = extractAllTextFromBundle(ex);
-            sendLogToUI("【微信原始数据】" + deep, false);
-        }
-
         if (notification == null) return;
         Bundle extras = notification.extras;
         if (extras == null) return;
@@ -388,7 +381,7 @@ public class NeNotificationService2 extends NotificationListenerService {
         // 合并所有文本，提高匹配成功率
         String fullText = mergeText(title, content, bigText, subText, infoText, summaryText, deepText);
 
-        // 【调试】如果是微信或支付宝，暂时关闭 5 秒去重，确保测试时不漏掉任何更新
+        // 【优化】如果是微信或支付宝，暂时关闭 5 秒去重，确保测试时不漏掉任何更新
         if (!WECHAT_PACKAGE.equals(pkg) && !ALIPAY_PACKAGE.equals(pkg)) {
             String deduKey = pkg + "|" + title + "|" + content;
             long now = System.currentTimeMillis();
@@ -399,87 +392,21 @@ public class NeNotificationService2 extends NotificationListenerService {
             recentNotifications.put(deduKey, now);
         }
 
-        // ==================== 详细日志打印 ====================
-        // 判断通知来源分类
-        String sourceTag;
-        if (WECHAT_PACKAGE.equals(pkg)) {
-            sourceTag = "💬微信";
-            // 在控制台打印扫描到的所有文本，方便调试隐藏数据
-            sendLogToUI("捕获微信通知，深度文本内容: " + fullText, false);
-        } else if (ALIPAY_PACKAGE.equals(pkg)) {
-            sourceTag = "💰支付宝";
-            sendLogToUI("捕获支付宝通知: " + fullText, false);
-        } else if (getPackageName().equals(pkg)) {
-            sourceTag = "📱本App";
-        } else {
-            sourceTag = "📦其他";
-        }
-
-        // 获取通知渠道和分类信息
-        String channelId = "";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            channelId = notification.getChannelId() != null ? notification.getChannelId() : "";
-        }
-        String category = notification.category != null ? notification.category : "";
-        long postTime = sbn.getPostTime();
-        int notificationId = sbn.getId();
-        String tag = sbn.getTag() != null ? sbn.getTag() : "";
-        boolean isOngoing = sbn.isOngoing();
-        boolean isClearable = sbn.isClearable();
-
-        Log.i(TAG, "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        Log.i(TAG, "┃ " + sourceTag + " 新通知捕获");
-        Log.i(TAG, "┣━ 包名:       " + pkg);
-        Log.i(TAG, "┣━ 通知ID:     " + notificationId + (TextUtils.isEmpty(tag) ? "" : " (tag=" + tag + ")"));
-        Log.i(TAG, "┣━ 标题:       " + (TextUtils.isEmpty(title) ? "(空)" : title));
-        Log.i(TAG, "┣━ 内容:       " + (TextUtils.isEmpty(content) ? "(空)" : content));
-        Log.i(TAG, "┣━ 深度文本:   " + fullText);
-        if (isOngoing) {
-            Log.i(TAG, "┣━ 状态:       🚩持续性通知 (Ongoing)");
-        }
-        if (!TextUtils.isEmpty(channelId)) {
-            Log.i(TAG, "┣━ 渠道ID:     " + channelId);
-        }
-        if (!TextUtils.isEmpty(category)) {
-            Log.i(TAG, "┣━ 分类:       " + category);
-        }
-        Log.i(TAG, "┣━ 发布时间:   " + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", java.util.Locale.CHINA).format(new Date(postTime)));
-        Log.i(TAG, "┣━ 持续通知:   " + isOngoing + " | 可清除: " + isClearable);
-
-        // 打印 extras 中所有 key，帮助排查未知字段
-        StringBuilder extrasKeys = new StringBuilder();
-        for (String k : extras.keySet()) {
-            Object v = extras.get(k);
-            if (v != null && v.toString().length() < 100) {
-                extrasKeys.append(k).append("=").append(v).append(", ");
-            } else {
-                extrasKeys.append(k).append(", ");
-            }
-        }
-        Log.d(TAG, "┣━ extras明细: " + extrasKeys.toString());
-
-        Log.i(TAG, "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-
-        // ==================== 业务处理 ====================
+        // ==================== 业务处理 (静默模式) ====================
         // 读取最新配置
         SharedPreferences prefs = getSharedPreferences("vone", MODE_PRIVATE);
         host = prefs.getString("host", "");
         key = prefs.getString("key", "");
 
         if (ALIPAY_PACKAGE.equals(pkg)) {
-            Log.d(TAG, "▶ 进入支付宝通知处理流程...");
             handleAlipayNotification(title, fullText);
         } else if (WECHAT_PACKAGE.equals(pkg)) {
-            Log.d(TAG, "▶ 进入微信通知处理流程...");
             handleWechatNotification(title, fullText);
         } else if (getPackageName().equals(pkg)) {
             // 本 App 测试推送
-            if (fullText.contains("这是一条测试推送信息")) {
-                Log.d(TAG, "▶ 捕获到本 App 测试推送，监听正常");
-                showToast("✅ 监听正常！通知捕获成功");
+            if (fullText.contains("这是一条测试推送信息") || fullText.contains("触发本地测试通知")) {
+                sendLogToUI("✅ 监听正常！本地测试通知捕获成功", false);
             }
-        } else {
-            Log.d(TAG, "▶ 非支付相关通知，仅记录日志 [" + pkg + "]");
         }
     }
 
